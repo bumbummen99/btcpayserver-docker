@@ -24,6 +24,17 @@ case "$BACKUP_PROVIDER" in
     fi
     ;;
 
+  "S3")
+    if [ -z "$S3_BUCKET" ]; then
+        echo "Set S3_BUCKET environment variable and try again."
+        exit 1
+    fi
+    
+    if [ -z "$S3_PATH" ]; then
+        echo "Using bucket root for backup, set S3_PATH if you want to backup into a specific folder (Make sure it ends with a trailing slash)."
+    fi
+    ;;
+
   "SCP")
     if [ -z "$SCP_TARGET" ]; then
         echo "Set SCP_TARGET environment variable and try again."
@@ -77,6 +88,13 @@ case $BACKUP_PROVIDER in
   "Dropbox")
     echo "Uploading to Dropbox …"
     docker run --name backup --env DROPBOX_TOKEN=$DROPBOX_TOKEN -v backup_datadir:/data jvandrew/btcpay-dropbox:1.0.5 $filename
+    echo "Deleting local backup …"
+    rm $backup_path
+    ;;
+
+  "S3")
+    echo "Uploading to S3 …"
+    docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli s3 cp $backup_path s3://$S3_BUCKET/$S3_PATH
     echo "Deleting local backup …"
     rm $backup_path
     ;;
