@@ -19,26 +19,26 @@ fi
 case "$BACKUP_PROVIDER" in
   "Dropbox")
     if [ -z "$DROPBOX_TOKEN" ]; then
-        echo "Set DROPBOX_TOKEN environment variable and try again."
+        echo -e "\033[0;31mSet DROPBOX_TOKEN environment variable and try again.\033[0m"
         exit 1
     fi
     ;;
 
   "S3")
-    echo "Using S3 backup provider. Make sure you have ran 'aws configure' on your root user and confiured the approiate AMI with access to your bucket."
+    echo -e "\033[1;33mUsing S3 backup provider. Make sure you have ran 'aws configure' on your root user and confiured the approiate AMI with access to your bucket.\033[0m"
     if [ -z "$S3_BUCKET" ]; then
-        echo "Set S3_BUCKET environment variable and try again."
+        echo -e "\033[0;31mSet S3_BUCKET environment variable and try again.\033[0m"
         exit 1
     fi
     
     if [ -z "$S3_PATH" ]; then
-        echo "Using bucket root for backup, set S3_PATH if you want to backup into a specific folder (Make sure it ends with a trailing slash)."
+        echo -e "\033[1;33mUsing bucket root for backup, set S3_PATH if you want to backup into a specific folder (Make sure it ends with a trailing slash).\033[0m"
     fi
     ;;
 
   "SCP")
     if [ -z "$SCP_TARGET" ]; then
-        echo "Set SCP_TARGET environment variable and try again."
+        echo -e "\033[0;31mSet SCP_TARGET environment variable and try again.\033[0m"
         exit 1
     fi
     ;;
