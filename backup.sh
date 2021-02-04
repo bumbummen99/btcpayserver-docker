@@ -95,12 +95,12 @@ case $BACKUP_PROVIDER in
 
   "S3")
     echo "Uploading to S3 …"
-    docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli s3 cp $backup_path s3://$S3_BUCKET/$S3_PATH
+    docker run --rm -it -v ~/.aws:/root/.aws -v $backup_path:/aws/$filename amazon/aws-cli s3 cp $filename s3://$S3_BUCKET/$S3_PATH
     echo "Deleting local backup …"
     rm $backup_path
     ;;
 
-  "SCP")
+"SCP")
     echo "Uploading via SCP …"
     scp $backup_path $SCP_TARGET
     echo "Deleting local backup …"
