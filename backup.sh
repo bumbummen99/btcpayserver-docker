@@ -25,6 +25,7 @@ case "$BACKUP_PROVIDER" in
     ;;
 
   "S3")
+    echo "Using S3 backup provider. Make sure you have ran 'aws configure' on your root user and confiured the approiate AMI with access to your bucket."
     if [ -z "$S3_BUCKET" ]; then
         echo "Set S3_BUCKET environment variable and try again."
         exit 1
